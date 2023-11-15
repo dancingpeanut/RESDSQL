@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "resdsql"
+version = "0.1.0"
+description = ""
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10.12"
+torch = "2.0.1"
+scikit-learn = "^1.3.2"
+spacy = "2.3.9"
+nltk = "^3.8.1"
+editdistance = "^0.6.2"
+func-timeout = "^4.3.5"
+rapidfuzz = "^3.5.2"
+sql-metadata = "^2.9.0"
+sqlparse = "^0.4.4"
+tokenizers = "^0.14.1"
+tqdm = "^4.66.1"
+transformers = "^4.35.0"
+tensorboard = "^2.15.1"
+sentencepiece = "^0.1.99"
+numpy = "^1.26.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true

@@ -93,8 +93,8 @@ conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit
 ```
 Install other required modules and tools:
 ```sh
-pip install -r requirements.txt
-pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz
+pip install -r requirements.txt（使用poetry初始化）
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz（使用python -m spacy download en_core_web_sm）
 python nltk_downloader.py
 ```
 Create several folders:
@@ -163,6 +163,7 @@ The predicted SQL queries are recorded in `predictions/{dataset_name}/{model_nam
 We also provide inference scripts to run RESDSQL-{Base, Large, 3B}+NatSQL on CSpider's development set. Here is an example:
 ```sh
 sh scripts/inference/infer_text2natsql_cspider.sh 3b
+初始化之后可直接用infer_text2natsql_cspider_1.sh
 ```
 The first argument (model scale) can be selected from `[base, large, 3b]`.
 
@@ -251,3 +252,10 @@ sh scripts/train/cspider_text2sql/train_text2sql_mt5_base.sh
 
 ## Acknowledgements
 We would thanks to Hongjin Su and Tao Yu for their help in evaluating our method on Spider's test set. We would also thanks to PICARD ([paper](https://arxiv.org/abs/2109.05093), [code](https://github.com/ServiceNow/picard)), NatSQL ([paper](https://arxiv.org/abs/2109.05153), [code](https://github.com/ygan/NatSQL)), Spider ([paper](https://arxiv.org/abs/1809.08887), [dataset](https://yale-lily.github.io/spider)), Spider-DK ([paper](https://arxiv.org/abs/2109.05157), [dataset](https://github.com/ygan/Spider-DK)), Spider-Syn ([paper](https://arxiv.org/abs/2106.01065), [dataset](https://github.com/ygan/Spider-Syn)), Spider-Realistic ([paper](https://arxiv.org/abs/2010.12773), [dataset](https://doi.org/10.5281/zenodo.5205322)), Dr.Spider ([paper](https://openreview.net/pdf?id=Wc5bmZZU9cy), [dataset](https://github.com/awslabs/diagnostic-robustness-text-to-sql)), and CSpider ([paper](https://arxiv.org/abs/1909.13293), [dataset](https://taolusi.github.io/CSpider-explorer/)) for their interesting work and open-sourced code and dataset.
+
+
+
+## Other
+
+python -m spacy download en_core_web_sm
+

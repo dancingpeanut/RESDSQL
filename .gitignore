@@ -1,0 +1,13 @@
+*.pyc
+.DS_Store
+.idea
+tmp
+eval_results
+models
+tensorboard_log
+third_party
+predictions
+data.zip
+data
+database.zip
+database

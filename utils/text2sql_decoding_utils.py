@@ -4,11 +4,12 @@ import sqlite3
 from difflib import SequenceMatcher
 from NatSQL.natsql_utils import natsql_to_sql
 from func_timeout import func_set_timeout, FunctionTimedOut
-from sql_metadata import Parser
+
 
 def find_most_similar_sequence(source_sequence, target_sequences):
     max_match_length = -1
     most_similar_sequence = ""
+    # TODO 可增加样例数据
     for target_sequence in target_sequences:
         match_length = SequenceMatcher(None, source_sequence, target_sequence).find_longest_match(0, len(source_sequence), 0, len(target_sequence)).size
         if max_match_length < match_length:
@@ -16,6 +17,7 @@ def find_most_similar_sequence(source_sequence, target_sequences):
             most_similar_sequence = target_sequence
     
     return most_similar_sequence
+
 
 def tokenize_natsql(natsql):
     '''
@@ -154,7 +156,7 @@ def decode_natsqls(
         db_file_path = db_path + "/{}/{}.sqlite".format(db_id, db_id)
         
         # print(batch_inputs[batch_id])
-        # print("\n".join(tokenizer.batch_decode(generator_outputs[batch_id, :, :], skip_special_tokens = True)))
+        print("\n".join(tokenizer.batch_decode(generator_outputs[batch_id, :, :], skip_special_tokens = True)))
 
         for seq_id in range(num_return_sequences):
             cursor = get_cursor_from_path(db_file_path)
@@ -168,29 +170,31 @@ def decode_natsqls(
             if old_pred_natsql != pred_natsql:
                 print("Before fix:", old_pred_natsql)
                 print("After fix:", pred_natsql)
-                print("---------------")
+            print('Pred natsql:', pred_natsql)
             pred_sql = natsql_to_sql(pred_natsql, db_id, db_file_path, table_dict[db_id]).strip()
-            
-            # try to execute the predicted sql
-            try:
-                # Note: execute_sql will be success for empty string
-                assert len(pred_sql) > 0, "pred sql is empty!"
+            print('Pred sql:', pred_sql)
+            print("---------------")
+            if pred_sql and pred_sql != "sql placeholder":
+                # try to execute the predicted sql
+                try:
+                    # Note: execute_sql will be success for empty string
+                    assert len(pred_sql) > 0, "pred sql is empty!"
 
-                results = execute_sql(cursor, pred_sql)
-                cursor.close()
-                cursor.connection.close()
-                # if the current sql has no execution error, we record and return it
-                pred_executable_sql = pred_sql
-                break
-            except Exception as e:
-                print(pred_sql)
-                print(e)
-                cursor.close()
-                cursor.connection.close()
-            except FunctionTimedOut as fto:
-                print(pred_sql)
-                print(fto)
-                del cursor
+                    results = execute_sql(cursor, pred_sql)
+                    cursor.close()
+                    cursor.connection.close()
+                    # if the current sql has no execution error, we record and return it
+                    pred_executable_sql = pred_sql
+                    break
+                except Exception as e:
+                    print(pred_sql)
+                    print(e)
+                    cursor.close()
+                    cursor.connection.close()
+                except FunctionTimedOut as fto:
+                    print(pred_sql)
+                    print(fto)
+                    del cursor
         
         final_sqls.append(pred_executable_sql)
     

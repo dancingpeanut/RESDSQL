@@ -250,7 +250,7 @@ def get_spacy_tokenizer():
     import re
     from spacy.tokenizer import Tokenizer
 
-    suffixes = nlp.Defaults.suffixes +  (r'((\d{4}((_|-|/){1}\d{2}){2})|((\d{2})(_|-|/)){2}\d{4})(\s\d{2}(:\d{2}){2}){0,1}',) + (r'(\d{1,2}(st|nd|rd|th){0,1}(,|\s)){0,1}((J|j)an(uary){0,1}|(F|f)eb(ruary){0,1}|(M|m)ar(ch){0,1}|(A|a)pr(il){0,1}|(M|m)ay|(J|j)un(e){0,1}|(J|j)ul(y){0,1}|(A|a)ug(ust){0,1}|(S|s)ep(tember){0,1}|(O|o)ct(ober){0,1}|(N|n)ov(ember){0,1}|(D|d)ec(ember){0,1})(\s|,)(\d{1,2}(st|nd|rd|th){0,1}(\s|,){1,3}){0,1}\d{4}',) + ( r'(\d{1,6}(_|-|\+|/)\d{0,6}[A-Za-z]{0,6}\d{0,6}[A-Za-z]{0,6})',)
+    suffixes = nlp.Defaults.suffixes + (r'((\d{4}((_|-|/){1}\d{2}){2})|((\d{2})(_|-|/)){2}\d{4})(\s\d{2}(:\d{2}){2}){0,1}',) + (r'(\d{1,2}(st|nd|rd|th){0,1}(,|\s)){0,1}((J|j)an(uary){0,1}|(F|f)eb(ruary){0,1}|(M|m)ar(ch){0,1}|(A|a)pr(il){0,1}|(M|m)ay|(J|j)un(e){0,1}|(J|j)ul(y){0,1}|(A|a)ug(ust){0,1}|(S|s)ep(tember){0,1}|(O|o)ct(ober){0,1}|(N|n)ov(ember){0,1}|(D|d)ec(ember){0,1})(\s|,)(\d{1,2}(st|nd|rd|th){0,1}(\s|,){1,3}){0,1}\d{4}',) + (r'(\d{1,6}(_|-|\+|/)\d{0,6}[A-Za-z]{0,6}\d{0,6}[A-Za-z]{0,6})',)
     suffix_regex = spacy.util.compile_suffix_regex(suffixes)
     nlp.tokenizer.suffix_search = suffix_regex.search
     

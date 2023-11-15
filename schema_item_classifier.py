@@ -404,7 +404,7 @@ def _test(opt):
     )
 
     # load fine-tuned params
-    model.load_state_dict(torch.load(opt.save_path + "/dense_classifier.pt", map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load(opt.save_path + "/dense_classifier.pt", map_location=torch.device('cpu')), strict=False)
     if torch.cuda.is_available():
         model = model.cuda()
     model.eval()
@@ -445,6 +445,8 @@ def _test(opt):
             
             column_pred_probs_for_auc.extend(column_pred_probs[:, 1].cpu().tolist())
             column_labels_for_auc.extend(batch_column_labels[batch_id].cpu().tolist())
+
+        print('')
 
     if opt.mode == "eval":
         # calculate AUC score for table classification

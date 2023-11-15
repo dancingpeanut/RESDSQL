@@ -1,6 +1,7 @@
 # Adapted from
 # https://github.com/taoyds/spider/blob/master/process_sql.py
-
+import logging
+import traceback
 
 from .natsql2sql import inference_sql,Args,natsql_version as n_version
 import sqlite3
@@ -591,7 +592,9 @@ def create_sql_from_natSQL(nsql, db_name, db, table_json, sq=None, remove_values
 
     try:
         final_sql = inference_sql(p_nsql, find_table, args, sq=sq)
-    except:
+    except Exception as _e:
+        if os.environ.get('T2S_RESDSQL_DEBUG'):
+            logging.error(traceback.format_exc())
         return None, None, (None, None, find_table)
     
     return final_sql, p_nsql, (toks, tables_with_alias, find_table)
