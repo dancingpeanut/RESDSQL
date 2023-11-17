@@ -47,7 +47,6 @@ def predict_with_natsql(question, nat_table):
     只能有一个db，也就是
     """
     db_path = get_db_path()
-    tokenizer, model = get_resdsql_model()
 
     inputs = [question]
     tc_map = {}
@@ -59,7 +58,9 @@ def predict_with_natsql(question, nat_table):
     for tb_name, tc in tc_map.items():
         inputs.append(f"{tb_name} : {' , '.join(tc)}")
     final_question = " | ".join(inputs)
+    print("final_question", final_question)
 
+    tokenizer, model = get_resdsql_model()
     tokenized_inputs = tokenizer(
         [final_question],
         return_tensors="pt",
